@@ -1,6 +1,6 @@
 package com.innovationT.inno.event.vo;
 
-public class EventFile {
+public class EventFileVO extends EventDefaultVO{
 	
 	private int eventFileIdx;
 	private int eventIdx;

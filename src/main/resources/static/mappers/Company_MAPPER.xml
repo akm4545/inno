@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.innovationT.inno.company.dao">
+	
+	<resultMap id="comresult" type="CompanyVO">
+		<result property="companyIdx" column="COMPANY_IDX" />
+		<result property="companyDir" column="COMPANY_DIR" />
+		<result property="companyName" column="COMPANY_NAME" />
+		<result property="companyType" column="COMPANY_TYPE" />
+		<result property="companyContent" column="COMPANY_CONTENT" />
+	</resultMap>
+	
+	
+	
+	<insert id="insertCompany" parameterType="com.innovationT.inno.company.vo.CompanyVO">
+		<![CDATA[
+			INSERT INTO company
+				( COMPANY_DIR
+				  , COMPANY_CONTENT
+				  , COMPANY_NAME 
+				  , COMPANY_TYPE)
+			VALUES ( #{dir}
+				  , #{content}
+				  , #{name} 
+				  , #{type})
+		]]>
+	</insert>
+	
+	<update id="updateCompany">
+		<![CDATA[
+			UPDATE company
+			SET COMPANY_DIR=#{dir}
+				, COMPANY_NAME=#{name}
+				, COMPANY_TYPE=#{type}
+				, COMPANY_CONTENT=#{content}
+			WHERE COMPANY_IDX = #{idx}
+			]]>
+			<!-- WHERE절 -->
+	</update>
+	
+	<delete id="deleteCompany">
+		<![CDATA[
+			DELETE FROM company
+				WHERE COMPANY_IDX = #{idx}
+			]]>
+			<!-- WHERE절 -->
+	</delete>
+	
+	<select id="selectCompany" resultMap="comresult">
+		<![CDATA[
+			SELECT
+				COMPANY_IDX
+				, COMPANY_DIR
+				, COMPANY_NAME
+				, COMPANY_TYPE
+				, COMPANY_CONTENT
+			FROM company
+			ORDER BY COMPANY_IDX DESC
+			]]>
+			<!-- WHERE절 -->
+	</select>
+	
+	<select id="selectCompanyList" parameterType="int" resultType="com.innovationT.inno.recruit.vo">
+			SELECT
+				COMPANY_IDX
+				, COMPANY_NAME
+				, COMPANY_CONTENT
+				, COMPANY_TYPE
+			FROM company
+			WHERE 1=1 <!-- 혹은 기준 고정 -->
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 0">AND
+					COMPANY_IDX = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 1">AND
+					COMPANY_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if>
+				ORDER BY COMPANY_IDX DESC
+				limit #{recordCountPerPage} offset #{firstIndex}	
+	</select>	
+<!-- 	<select id="selectCompanyListTotCnt" parameterType="**" resultType="int"> -->
+<!-- 			SELECT COUNT(*) totcnt -->
+<!-- 			FROM ** -->
+<!-- 			WHERE 1=1 혹은 기준 고정 -->
+<!-- 			<if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				<if test="searchCondition == 0">AND -->
+<!-- 					test = #{searchKeyword} -->
+<!-- 				</if> -->
+<!-- 				<if test="searchCondition == 1">AND -->
+<!-- 					tes2 LIKE CONCAT('%',#{searchKeyword},'%') -->
+<!-- 				</if> -->
+<!-- 			</if>			 -->
+<!-- 	</select> -->
+
+</mapper>

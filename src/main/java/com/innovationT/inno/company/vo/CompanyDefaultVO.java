@@ -1,8 +1,8 @@
-package jPlay.test;
+package com.innovationT.inno.company.vo;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class TempDefaultVO {
+public class CompanyDefaultVO {
 	
 	/** 검색조건 */
     private String searchCondition = "";

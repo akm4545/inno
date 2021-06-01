@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.innovationT.inno.dao">
+	
+	<resultMap id="recruitresult" type="RecruitVO">
+		<result property="recruitIdx" column="RECRUIT_IDX" />
+		<result property="recruitType" column="RECRUIT_TYPE" />
+		<result property="recruitTitle" column="RECRUIT_TITLE" />
+		<result property="recruitContent" column="RECRUIT_CONTENT" />
+		<result property="recruitrecruitHit" column="RECRUIT_HIT" />
+		<result property="recruitDate" column="RECRUIT_DATE" />
+		<result property="recruitIng" column="RECRUIT_ING" />
+	</resultMap>
+	
+<!-- 		private int recruitIdx; -->
+<!-- 	private String recruitType; -->
+<!-- 	private String recruitTitle; -->
+<!-- 	private String recruitContent; -->
+<!-- 	private int adminIdx; -->
+<!-- 	private int recruitHit; -->
+<!-- 	private String recruitDate; -->
+<!-- 	private String recruitIng; -->
+	
+	<insert id="insertRecruit" parameterType="com.innovationT.inno.recruit.vo.RecruitVO">
+		<![CDATA[
+			INSERT INTO recruit 
+				( RECRUIT_TYPE,
+				  RECRUIT_TITLE,
+				  RECRUIT_CONTENT,
+				  RECRUIT_DATE,
+				  RECRUIT_ING
+					 )
+			VALUES ( #{TYPE}
+					,#{TITLE}
+				  ,#{CONTENT}
+				  ,SYSDATE()
+				  ,'T'
+				   )
+		]]>
+	</insert>
+	
+	<update id="updateRecruit">
+		<![CDATA[
+			UPDATE recruit
+			SET RECRUIT_TITLE=#{title}
+				, RECRUIT_CONTENT=#{content}
+			WHERE RECRUIT_IDX = #{idx}
+			]]>
+			<!-- WHERE절 -->
+	</update>
+	
+	<delete id="deleteRecruit">
+		<![CDATA[
+			DELETE FROM recruit
+				WHERE RECRUIT_IDX=#{idx} 
+			]]>
+			
+			<!-- WHERE절 -->
+	</delete>
+	
+	<select id="selectRecruit" resultMap="recruitResult">
+		<![CDATA[
+			SELECT
+				RECRUIT_IDX,
+				RECRUIT_TYPE,
+				  RECRUIT_TITLE,
+				  RECRUIT_CONTENT,
+				  RECRUIT_DATE,
+				  RECRUIT_HIT,
+				  RECRUIT_ING
+			 FROM recruit
+			 ORDER BY RECRUIT_IDX DESC
+			]]>
+			<!-- WHERE절 -->
+	</select>
+	
+	<select id="selectRecruitList" parameterType="int" resultType="com.innovationT.inno.recruit.vo">
+			SELECT
+				RECRUIT_TITLE
+				, RECURIT_CONTENT
+			FROM recruit
+			WHERE 1=1 <!-- 혹은 기준 고정 -->
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 0">AND
+					RECRUIT_TITLE = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 1">AND
+					RECRUIT_CONTENT LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if>
+				ORDER BY RECRUIT_IDX DESC
+				limit #{recordCountPerPage} offset #{firstIndex}	
+	</select>	
+<!-- 	<select id="selectRecruitListTotCnt" parameterType="**" resultType="int"> -->
+<!-- 			SELECT COUNT(*) totcnt -->
+<!-- 			FROM recruit -->
+<!-- 			WHERE 1=1 혹은 기준 고정 -->
+<!-- 			<if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				<if test="searchCondition == 0">AND -->
+<!-- 					test = #{searchKeyword} -->
+<!-- 				</if> -->
+<!-- 				<if test="searchCondition == 1">AND -->
+<!-- 					tes2 LIKE CONCAT('%',#{searchKeyword},'%') -->
+<!-- 				</if> -->
+<!-- 			</if>			 -->
+<!-- 	</select> -->
+
+</mapper>

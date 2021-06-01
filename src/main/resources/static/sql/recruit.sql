@@ -1,0 +1,13 @@
+CREATE TABLE RECRUIT (
+	RECRUIT_IDX INT NOT NULL PRIMARY KEY AUTO_INCREMENT,		/* 채용공고 인덱스 */
+	RECRUIT_TYPE CHAR(1) NOT NULL DEFAULT 'F',					/* 공고 타입 공지 = T, 나머지 = F*/
+	RECRUIT_TITLE VARCHAR(40) NOT NULL,							/* 공고 제목 */
+	RECRUIT_CONTENT TEXT,										/* 공고 내용 */
+	ADMIN_IDX INT NOT NULL,										/* 작성자 테이블 주키 (외래키) */
+	RECRUIT_HIT INT NOT NULL DEFAULT 0, 						/* 공고 조회수 */
+	RECRUIT_DATE DATETIME NOT NULL DEFAULT NOW(),				/* 공고 등록일 */
+	RECRUIT_ING CHAR(1) NOT NULL DEFAULT 'T'					/* 공고 타입 채용 중 = T, 채용마감 = F, 공지 = N*/
+	FOREIGN KEY (ADMIN_IDX) REFERENCES ADMIN (ADMIN_IDX)
+);
+
+ALTER 

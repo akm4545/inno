@@ -1,11 +1,11 @@
 package com.innovationT.inno.event.vo;
 
-public class EventVO {
+public class EventVO extends EventFileVO{
 	
 	private int eventIdx;
 	private	String eventTitle;
 	private	String eventContent;
-	private String eventDete;
+	private String eventDate;
 	
 	public int getEventIdx() {
 		return eventIdx;
@@ -25,16 +25,16 @@ public class EventVO {
 	public void setEventContent(String eventContent) {
 		this.eventContent = eventContent;
 	}
-	public String getEventDete() {
-		return eventDete;
+	public String getEventDate() {
+		return eventDate;
 	}
-	public void setEventDete(String eventDete) {
-		this.eventDete = eventDete;
+	public void setEventDate(String eventDate) {
+		this.eventDate = eventDate;
 	}
 	
 	@Override
 	public String toString() {
 		return "EventVO [eventIdx=" + eventIdx + ", eventTitle=" + eventTitle + ", eventContent=" + eventContent
-				+ ", eventDete=" + eventDete + "]";
+				+ ", eventDete=" + eventDate + "]";
 	}
 }

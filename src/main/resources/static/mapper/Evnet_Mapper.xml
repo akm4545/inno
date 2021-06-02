@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.innovationT.inno.event.dao.EventMapper">
+	
+	<resultMap id="eventVO" type="com.innovationT.inno.event.vo.EventVO">
+		<result property="eventIdx" column="EVENT_IDX"/>
+		<result property="eventTitle" column="EVENT_TITLE"/>
+		<result property="eventContent" column="EVENT_CONTENT"/>
+		<result property="eventDate" column="EVENT_DATE"/>
+		<result property="eventFileIdx" column="EVENTFILE_IDX"/>
+		<result property="eventFileDir" column="EVENTFILE_DIR"/>
+		<result property="eventFileName" column="EVENTFILE_NAME"/>
+		<result property="eventFileType" column="EVENTFILE_TYPE"/>
+	</resultMap>
+	
+	<resultMap id="eventFileVO" type="com.innovationT.inno.event.vo.EventFile">
+		<result property="eventFileIdx" column="EVENTFILE_IDX"/>
+		<result property="eventIdx" column="EVENT_IDX"/>
+		<result property="eventFileDir" column="EVENTFILE_DIR"/>
+		<result property="eventFileName" column="EVENTFILE_NAME"/>
+		<result property="eventFileType" column="EVENTFILE_TYPE"/>
+	</resultMap>
+	
+	<insert id="insertEvent" parameterType="com.innovationT.inno.event.vo.EventVO">
+		<![CDATA[
+			INSERT INTO EVENT 
+			VALUES ( default,
+				   , #{eventTitle}
+				   , #{eventContent}
+				   , default )
+		]]>
+	</insert>
+	
+	<insert id="insertEventFileList">
+		INSERT INTO EVENTFILE
+		VALUES 
+		<foreach item="item" collection="list" separator=",">
+			( default,
+			   , #{eventIdx}
+			   , #{eventFileDir}
+			   , #{eventFileName}
+			   , #{eventFileType} )
+		</foreach>	   
+	</insert>
+	
+	<update id="updateEvent" parameterType="com.innovationT.inno.event.vo.EventVO">
+		UPDATE EVENT
+		SET EVENT_TITLE = #{eventTitle}
+			, EVENT_CONTENT = #{eventContent}
+		WHERE EVENT_IDX = #{eventIdx}
+	</update>
+	
+	<select id="deleteEventFileList">
+		SELECT 
+			  EVENTFILE_IDX,
+			  EVENTFILE_DIR,
+			  EVENTFILE_NAME,
+			  EVENTFILE_TYPE
+		FROM EVENTFILE
+		WHERE 
+		<foreach item="item" collection="list" separator="or">
+			EVENTFILE_IDX = #{item}
+		</foreach>	    
+	</select>
+	
+	<delete id="deleteEventFile">
+		DELETE FROM EVENTFILE
+		WHERE 
+		<foreach item="item" collection="list" separator="or">
+			EVENTFILE_IDX = #{EVENTFILE_IDX}
+		</foreach>	    
+	</delete>
+	
+	<select id="selectEvent" parameterType="com.innovationT.inno.event.vo.EventVO" resultMap="eventVO">
+		<![CDATA[
+			SELECT
+				EVENT_IDX,
+				EVENT_TITLE,
+				EVENT_CONTENT,
+				EVENT_DATE
+			FROM EVENT
+			WHERE EVENT_IDX = #{eventIdx} 
+		]]>
+	</select>
+	
+	<select id="selectEventFileList" parameterType="int" resultMap="eventVO">
+		<![CDATA[
+			SELECT
+				EVENTFILE_IDX,
+				EVENTFILE_DIR,
+				EVENTFILE_NAME,
+				EVENTFILE_TYPE
+			FROM EVENTFILE 
+			WHERE EVENT_IDX = #{eventIdx}
+			ORDER BY EVENTFILE_IDX DESC 
+		]]>
+	</select>
+	
+	<select id="selectEventList" resultMap="eventVO">
+			SELECT
+					EVENT_IDX,
+					EVENT_TITLE,
+					EVENT_CONTENT,
+					EVENT_DATE
+			FROM EVENT
+				INNER JOIN EVENTFILE 
+					ON EVENT.EVENT_IDX = EVENTFILE.EVENT_IDX
+				WHERE EVENTFILE_TYPE = 'T'
+			ORDER BY EVENTFILE_IDX DESC
+			limit #{recordCountPerPage} offset #{firstIndex}
+	</select>	
+	
+	<select id="selectEventListTotCnt" resultType="int">
+			SELECT COUNT(*) totcnt
+			FROM EVENT
+	</select>
+	
+	<delete id="deleteEvent" parameterType="com.innovationT.inno.event.vo.EventVO">
+		DELETE FROM EVENT
+		WHERE EVENT_IDX = #{eventIdx}
+	</delete>
+	
+	<select id="removeEventFileList" parameterType="com.innovationT.inno.event.vo.EventVO">
+		SELECT 
+			  EVENT_NAME,
+			  EVENT_DIR
+		FROM EVENTFILE
+		WHERE EVENT_IDX = ${eventIdx}
+	</select>
+</mapper>

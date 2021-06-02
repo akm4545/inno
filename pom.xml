@@ -59,6 +59,21 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
+		
+		
+		<!-- ToStringBuilder -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		</dependency>
+	
+		<!-- MyBatis -->	
+		<dependency>
+		  <groupId>org.mybatis</groupId>
+		  <artifactId>mybatis</artifactId>
+		  <version>3.5.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

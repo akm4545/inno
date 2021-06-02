@@ -1,9 +1,6 @@
-package jPlay.test;
+package com.innovationT.inno.admin.adminMember.vo;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-public class TempDefaultVO {
-	
+public class AdminDefaultVO {
 	/** 검색조건 */
     private String searchCondition = "";
     
@@ -104,8 +101,11 @@ public class TempDefaultVO {
         this.pageSize = pageSize;
     }
 
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
+	@Override
+	public String toString() {
+		return "EvnetDefaultVO [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+				+ ", searchUseYn=" + searchUseYn + ", pageIndex=" + pageIndex + ", pageUnit=" + pageUnit + ", pageSize="
+				+ pageSize + ", firstIndex=" + firstIndex + ", lastIndex=" + lastIndex + ", recordCountPerPage="
+				+ recordCountPerPage + "]";
+	}
 }

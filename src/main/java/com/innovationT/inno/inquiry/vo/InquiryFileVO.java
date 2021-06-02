@@ -1,6 +1,6 @@
 package com.innovationT.inno.inquiry.vo;
 
-public class InquiryFileVO {
+public class InquiryFileVO extends Inquiry{
 	
 	private int inquiryFileIdx;
 	private int inquiryIdx;

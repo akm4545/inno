@@ -1,6 +1,6 @@
 package com.innovationT.inno.inquiry.vo;
 
-public class InquiryUserInfoVO {
+public class InquiryUserInfoVO extends Inquiry {
 	
 	private int inquiryIdx;
 	private int inquiryUserInfoIdx;

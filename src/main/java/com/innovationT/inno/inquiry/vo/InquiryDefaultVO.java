@@ -102,8 +102,8 @@ public class InquiryDefaultVO {
         this.pageSize = pageSize;
     }
 
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+//    }
 
 }

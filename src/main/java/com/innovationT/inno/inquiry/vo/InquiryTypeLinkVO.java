@@ -2,15 +2,8 @@ package com.innovationT.inno.inquiry.vo;
 
 public class InquiryTypeLinkVO extends Inquiry {
 
-	private int inquiryIdx;
 	private int inquiryTypeIdx;
 	
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
-	}
 	public int getInquiryTypeIdx() {
 		return inquiryTypeIdx;
 	}
@@ -18,4 +11,8 @@ public class InquiryTypeLinkVO extends Inquiry {
 		this.inquiryTypeIdx = inquiryTypeIdx;
 	}
 	
+	@Override
+	public String toString() {
+		return "InquiryTypeLinkVO [inquiryTypeIdx=" + inquiryTypeIdx + ", inquiryIdx=" + getInquiryIdx() + "]";
+	}
 }

@@ -3,7 +3,6 @@ package com.innovationT.inno.inquiry.vo;
 public class InquirySiteVO extends Inquiry {
 
 	private int inquirySiteIdx;
-	private int inquiryIdx;
 	private String inquirySiteSite;
 	private String inquirySiteType;
 	
@@ -12,12 +11,6 @@ public class InquirySiteVO extends Inquiry {
 	}
 	public void setInquirySiteIdx(int inquirySiteIdx) {
 		this.inquirySiteIdx = inquirySiteIdx;
-	}
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
 	}
 	public String getInquirySiteSite() {
 		return inquirySiteSite;
@@ -32,4 +25,9 @@ public class InquirySiteVO extends Inquiry {
 		this.inquirySiteType = inquirySiteType;
 	}
 	
+	@Override
+	public String toString() {
+		return "InquirySiteVO [inquirySiteIdx=" + inquirySiteIdx + ", inquiryIdx=" + getInquiryIdx() + ", inquirySiteSite="
+				+ inquirySiteSite + ", inquirySiteType=" + inquirySiteType + "]";
+	}
 }

@@ -18,4 +18,8 @@ public class InquiryTypeVO extends Inquiry {
 		this.inquiryTypeType = inquiryTypeType;
 	}
 	
+	@Override
+	public String toString() {
+		return "InquiryTypeVO [inquiryTypeIdx=" + inquiryTypeIdx + ", inquiryTypeType=" + inquiryTypeType + "]";
+	}
 }

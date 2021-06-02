@@ -3,7 +3,6 @@ package com.innovationT.inno.inquiry.vo;
 public class InquiryFileVO extends Inquiry{
 	
 	private int inquiryFileIdx;
-	private int inquiryIdx;
 	private String inquiryFileName;
 	private String inquiryFileDir;
 	private String inquiryFileOrigin;
@@ -13,12 +12,6 @@ public class InquiryFileVO extends Inquiry{
 	}
 	public void setInquiryFileIdx(int inquiryFileIdx) {
 		this.inquiryFileIdx = inquiryFileIdx;
-	}
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
 	}
 	public String getInquiryFileName() {
 		return inquiryFileName;
@@ -41,7 +34,7 @@ public class InquiryFileVO extends Inquiry{
 	
 	@Override
 	public String toString() {
-		return "InquiryFileVO [inquiryFileIdx=" + inquiryFileIdx + ", inquiryIdx=" + inquiryIdx + ", inquiryFileName="
+		return "InquiryFileVO [inquiryFileIdx=" + inquiryFileIdx + ", inquiryIdx=" + getInquiryIdx() + ", inquiryFileName="
 				+ inquiryFileName + ", inquiryFileDir=" + inquiryFileDir + ", inquiryFileOrigin=" + inquiryFileOrigin
 				+ "]";
 	}

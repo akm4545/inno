@@ -3,7 +3,6 @@ package com.innovationT.inno.inquiry.vo;
 public class InquiryReservationVO extends Inquiry {
 	
 	private int inquiryReservationIdx;
-	private int inquiryIdx;
 	private String inquiryReservationType;
 	
 	public int getInquiryReservationIdx() {
@@ -12,12 +11,6 @@ public class InquiryReservationVO extends Inquiry {
 	public void setInquiryReservationIdx(int inquiryReservationIdx) {
 		this.inquiryReservationIdx = inquiryReservationIdx;
 	}
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
-	}
 	public String getInquiryReservationType() {
 		return inquiryReservationType;
 	}
@@ -25,4 +18,9 @@ public class InquiryReservationVO extends Inquiry {
 		this.inquiryReservationType = inquiryReservationType;
 	}
 	
+	@Override
+	public String toString() {
+		return "InquiryReservationVO [inquiryReservationIdx=" + inquiryReservationIdx + ", inquiryIdx=" + getInquiryIdx() + ", inquiryReservationType="
+				+ inquiryReservationType + "]";
+	}
 }

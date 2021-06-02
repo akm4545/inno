@@ -2,19 +2,12 @@ package com.innovationT.inno.inquiry.vo;
 
 public class InquiryVO extends Inquiry {
 	
-	private int inquiryIdx;
 	private int inquiryPageNumber;
 	private String inquiryPay;
 	private String inquiryContent;
 	private String inquiryDate;
 	private String inquiryCheck;
 	
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
-	}
 	public int getInquiryPageNumber() {
 		return inquiryPageNumber;
 	}
@@ -48,7 +41,7 @@ public class InquiryVO extends Inquiry {
 	
 	@Override
 	public String toString() {
-		return "InquiryVO [inquiryIdx=" + inquiryIdx + ", inquiryPageNumber=" + inquiryPageNumber + ", inquiryPay="
+		return "InquiryVO [inquiryIdx=" + getInquiryIdx() + ", inquiryPageNumber=" + inquiryPageNumber + ", inquiryPay="
 				+ inquiryPay + ", inquiryContent=" + inquiryContent + ", inquiryDate=" + inquiryDate + ", inquiryCheck="
 				+ inquiryCheck + "]";
 	}

@@ -43,7 +43,7 @@ public class EventController {
     		List<EventFileVO> eventFileVOList = eventService.saveEventFile(/* 이벤트 파일 매개변수 전달*/);
     		
     		//트랜잭션 처리 필요 
-    		eventService.insertEvent(eventVO);  
+    		eventService.insertEvent(eventVO);
     		eventService.insertEventFileList(eventFileVOList);
     	}catch (Exception e) {
     		e.printStackTrace();

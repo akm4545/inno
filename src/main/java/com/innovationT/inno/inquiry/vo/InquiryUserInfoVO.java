@@ -2,56 +2,53 @@ package com.innovationT.inno.inquiry.vo;
 
 public class InquiryUserInfoVO extends Inquiry {
 	
-	private int inquiryIdx;
 	private int inquiryUserInfoIdx;
-	private String inquiryUserInfoIdxName;
-	private String inquiryUserInfoIdxCompany;
-	private String inquiryUserInfoIdxNumber;
-	private String inquiryUserInfoIdxEmail;
-	private String inquiryUserInfoIdxAgree;
+	private String inquiryUserInfoName;
+	private String inquiryUserInfoCompany;
+	private String inquiryUserInfoNumber;
+	private String inquiryUserInfoEmail;
+	private String inquiryUserInfoAgree;
 	
-	public int getInquiryIdx() {
-		return inquiryIdx;
-	}
-	public void setInquiryIdx(int inquiryIdx) {
-		this.inquiryIdx = inquiryIdx;
-	}
 	public int getInquiryUserInfoIdx() {
 		return inquiryUserInfoIdx;
 	}
 	public void setInquiryUserInfoIdx(int inquiryUserInfoIdx) {
 		this.inquiryUserInfoIdx = inquiryUserInfoIdx;
 	}
-	public String getInquiryUserInfoIdxName() {
-		return inquiryUserInfoIdxName;
+	public String getInquiryUserInfoName() {
+		return inquiryUserInfoName;
 	}
-	public void setInquiryUserInfoIdxName(String inquiryUserInfoIdxName) {
-		this.inquiryUserInfoIdxName = inquiryUserInfoIdxName;
+	public void setInquiryUserInfoName(String inquiryUserInfoName) {
+		this.inquiryUserInfoName = inquiryUserInfoName;
 	}
-	public String getInquiryUserInfoIdxCompany() {
-		return inquiryUserInfoIdxCompany;
+	public String getInquiryUserInfoCompany() {
+		return inquiryUserInfoCompany;
 	}
-	public void setInquiryUserInfoIdxCompany(String inquiryUserInfoIdxCompany) {
-		this.inquiryUserInfoIdxCompany = inquiryUserInfoIdxCompany;
+	public void setInquiryUserInfoCompany(String inquiryUserInfoCompany) {
+		this.inquiryUserInfoCompany = inquiryUserInfoCompany;
 	}
-	public String getInquiryUserInfoIdxNumber() {
-		return inquiryUserInfoIdxNumber;
+	public String getInquiryUserInfoNumber() {
+		return inquiryUserInfoNumber;
 	}
-	public void setInquiryUserInfoIdxNumber(String inquiryUserInfoIdxNumber) {
-		this.inquiryUserInfoIdxNumber = inquiryUserInfoIdxNumber;
+	public void setInquiryUserInfoNumber(String inquiryUserInfoNumber) {
+		this.inquiryUserInfoNumber = inquiryUserInfoNumber;
 	}
-	public String getInquiryUserInfoIdxEmail() {
-		return inquiryUserInfoIdxEmail;
+	public String getInquiryUserInfoEmail() {
+		return inquiryUserInfoEmail;
 	}
-	public void setInquiryUserInfoIdxEmail(String inquiryUserInfoIdxEmail) {
-		this.inquiryUserInfoIdxEmail = inquiryUserInfoIdxEmail;
+	public void setInquiryUserInfoEmail(String inquiryUserInfoEmail) {
+		this.inquiryUserInfoEmail = inquiryUserInfoEmail;
 	}
-	public String getInquiryUserInfoIdxAgree() {
-		return inquiryUserInfoIdxAgree;
+	public String getInquiryUserInfoAgree() {
+		return inquiryUserInfoAgree;
 	}
-	public void setInquiryUserInfoIdxAgree(String inquiryUserInfoIdxAgree) {
-		this.inquiryUserInfoIdxAgree = inquiryUserInfoIdxAgree;
+	public void setInquiryUserInfoAgree(String inquiryUserInfoAgree) {
+		this.inquiryUserInfoAgree = inquiryUserInfoAgree;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "InquiryUserInfoVO [inquiryUserInfoIdx=" + inquiryUserInfoIdx + ", inquiryIdx=" + getInquiryIdx() + ", inquiryUserInfoName="
+				+ inquiryUserInfoName + ", inquiryUserInfoCompany=" + inquiryUserInfoCompany + ", inquiryUserInfoNumber=" + inquiryUserInfoNumber
+				+ ", inquiryUserInfoEmail=" + inquiryUserInfoEmail + ", inquiryUserInfoAgree=" + inquiryUserInfoAgree + "]";
+	}
 }

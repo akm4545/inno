@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="**">
+	
+	<resultMap id="historyresult" type="com.innovationT.inno.history.vo">
+		<result property="historyIdx" column="HISTORY_IDX" />
+		<result property="historyDate" column="HISTORY_DATE" />
+		<result property="historyContent" column="HISTORY_CONTENT" />
+	</resultMap>
+	
+	
+
+	<insert id="insertHistory">
+		<![CDATA[
+			INSERT INTO history 
+				( HISTORY_DATE
+				  , HISTORY_CONTENT )
+			VALUES ( #{date}
+				  , #{content} )
+		]]>
+	</insert>
+	
+	<update id="updateHistory">
+		<![CDATA[
+			UPDATE history
+			SET HISTORY_DATE=#{date}
+				, HISTORY_CONTENT=#{content}
+			]]>
+			WHERE HISTORY_IDX=#{idx}
+	</update>
+	
+	<delete id="deleteHistory">
+		<![CDATA[
+			DELETE FROM history  
+			]]>
+			WHERE HISTORY_IDX=#{idx}
+			<!-- WHERE절 -->
+	</delete>
+	
+	<select id="selectHistory" resultMap="historyresult">
+		<![CDATA[
+			SELECT
+				HISTORY_IDX
+				, HISTORY_DATE
+				, HISTORY_CONTENT
+			FROM history
+			WHERE HISTORY_IDX = #{IDX}
+			]]>
+			<!-- WHERE절 -->
+	</select>
+	
+	<select id="selectHistoryList" parameterType="int" resultType="**">
+			SELECT
+					HISTORY_IDX
+					,HISTORY_DATE
+					,HISTORY_CONTENT
+					FROM history
+			WHERE 1=1 <!-- 혹은 기준 고정 -->
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 0">AND
+					HISTORY_CONTENT = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 1">AND
+					HISTORY_CONTENT LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if>
+				ORDER BY HISTORY_IDX DESC
+				limit #{recordCountPerPage} offset #{firstIndex}	
+	</select>	
+<!-- 	<select id="select**ListTotCnt" parameterType="**" resultType="int"> -->
+<!-- 			SELECT COUNT(*) totcnt -->
+<!-- 			FROM ** -->
+<!-- 			WHERE 1=1 혹은 기준 고정 -->
+<!-- 			<if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				<if test="searchCondition == 0">AND -->
+<!-- 					test = #{searchKeyword} -->
+<!-- 				</if> -->
+<!-- 				<if test="searchCondition == 1">AND -->
+<!-- 					tes2 LIKE CONCAT('%',#{searchKeyword},'%') -->
+<!-- 				</if> -->
+<!-- 			</if>			 -->
+<!-- 	</select> -->
+
+</mapper>

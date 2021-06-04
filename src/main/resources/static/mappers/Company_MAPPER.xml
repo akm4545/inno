@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.innovationT.inno.company.dao">
+<mapper namespace="com.innovationT.inno.company.dao.CompanyMapper">
 	
 	<resultMap id="comresult" type="CompanyVO">
 		<result property="companyIdx" column="COMPANY_IDX" />
@@ -61,7 +61,7 @@
 			<!-- WHERE절 -->
 	</select>
 	
-	<select id="selectCompanyList" parameterType="int" resultType="com.innovationT.inno.recruit.vo">
+	<select id="selectCompanyList" parameterType="int" resultType="com.innovationT.inno.company.vo.CompanyVO">
 			SELECT
 				COMPANY_IDX
 				, COMPANY_NAME

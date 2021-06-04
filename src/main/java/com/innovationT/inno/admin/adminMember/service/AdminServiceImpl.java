@@ -10,7 +10,7 @@ import com.innovationT.inno.admin.adminMember.vo.AdminDefaultVO;
 import com.innovationT.inno.admin.adminMember.vo.AdminVO;
 
 @Service
-public class AdminServiceImpl implements AdminIService{
+public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	AdminMapper adminDAO;

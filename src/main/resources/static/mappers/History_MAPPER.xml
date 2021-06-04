@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="**">
+<mapper namespace="com.innovationT.inno.history.dao.HistoryMapper">
 	
-	<resultMap id="historyresult" type="com.innovationT.inno.history.vo">
+	<resultMap id="historyresult" type="com.innovationT.inno.history.vo.HistoryVO">
 		<result property="historyIdx" column="HISTORY_IDX" />
 		<result property="historyDate" column="HISTORY_DATE" />
 		<result property="historyContent" column="HISTORY_CONTENT" />
@@ -50,7 +50,7 @@
 			<!-- WHERE절 -->
 	</select>
 	
-	<select id="selectHistoryList" parameterType="int" resultType="**">
+	<select id="selectHistoryList" parameterType="int" resultType="com.innovationT.inno.history.vo.HistoryVO">
 			SELECT
 					HISTORY_IDX
 					,HISTORY_DATE

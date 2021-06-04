@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.innovationT.inno.dao">
+<mapper namespace="com.innovationT.inno.recruit.dao.RecruitMapper">
 	
 	<resultMap id="recruitresult" type="RecruitVO">
 		<result property="recruitIdx" column="RECRUIT_IDX" />
 		<result property="recruitType" column="RECRUIT_TYPE" />
 		<result property="recruitTitle" column="RECRUIT_TITLE" />
 		<result property="recruitContent" column="RECRUIT_CONTENT" />
-		<result property="recruitrecruitHit" column="RECRUIT_HIT" />
+		<result property="recruitHit" column="RECRUIT_HIT" />
 		<result property="recruitDate" column="RECRUIT_DATE" />
 		<result property="recruitIng" column="RECRUIT_ING" />
 	</resultMap>
@@ -75,7 +75,7 @@
 			<!-- WHERE절 -->
 	</select>
 	
-	<select id="selectRecruitList" parameterType="int" resultType="com.innovationT.inno.recruit.vo">
+	<select id="selectRecruitList" parameterType="int" resultType="com.innovationT.inno.recruit.vo.RecruitVO">
 			SELECT
 				RECRUIT_TITLE
 				, RECURIT_CONTENT

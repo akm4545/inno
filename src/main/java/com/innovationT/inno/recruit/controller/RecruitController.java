@@ -30,7 +30,7 @@ public class RecruitController {
     
     //입력
     @RequestMapping("/**")
-    public String addCex(RecruitVO RecruitVO, RecruitDefaultVO searchVO) throws Exception {
+    public String addRecruit(RecruitVO RecruitVO, RecruitDefaultVO searchVO) throws Exception {
     	RecruitService.insertRecruit(RecruitVO);
 
         return "forward:**";

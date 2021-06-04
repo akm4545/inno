@@ -103,7 +103,7 @@ public class AdminDefaultVO {
 
 	@Override
 	public String toString() {
-		return "EvnetDefaultVO [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+		return "AdminDefaultVO [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", searchUseYn=" + searchUseYn + ", pageIndex=" + pageIndex + ", pageUnit=" + pageUnit + ", pageSize="
 				+ pageSize + ", firstIndex=" + firstIndex + ", lastIndex=" + lastIndex + ", recordCountPerPage="
 				+ recordCountPerPage + "]";

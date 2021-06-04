@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.innovationT.inno.admin.adminMember.service.AdminIService;
+import com.innovationT.inno.admin.adminMember.service.AdminService;
 import com.innovationT.inno.admin.adminMember.vo.AdminDefaultVO;
 import com.innovationT.inno.admin.adminMember.vo.AdminVO;
 
@@ -15,7 +15,7 @@ import com.innovationT.inno.admin.adminMember.vo.AdminVO;
 public class AdminController {
 	
     @Autowired
-    private AdminIService adminService;
+    private AdminService adminService;
 	
     @RequestMapping(value="**")
     public String selectAdminList(AdminDefaultVO searchVO, Model model) throws Exception {

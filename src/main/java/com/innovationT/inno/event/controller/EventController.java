@@ -28,9 +28,9 @@ public class EventController {
     	
     	int totCnt = eventService.selectEventListTotCnt();
     	
-        List<EventVO> evnetList = eventService.selectEventList(searchVO);
+        List<EventVO> eventList = eventService.selectEventList(searchVO);
         
-        model.addAttribute("evnetList", evnetList);
+        model.addAttribute("eventList", eventList);
         
         return "**List";
     } 

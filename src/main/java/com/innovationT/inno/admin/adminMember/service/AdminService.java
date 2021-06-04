@@ -5,7 +5,7 @@ import java.util.List;
 import com.innovationT.inno.admin.adminMember.vo.AdminDefaultVO;
 import com.innovationT.inno.admin.adminMember.vo.AdminVO;
 
-public interface AdminIService {
+public interface AdminService {
 
 	List<AdminVO> selectAdminList(AdminDefaultVO searchVO) throws Exception;
 

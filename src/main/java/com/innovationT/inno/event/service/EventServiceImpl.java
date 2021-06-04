@@ -11,7 +11,7 @@ import com.innovationT.inno.event.vo.EventDefaultVO;
 import com.innovationT.inno.event.vo.EventFileVO;
 import com.innovationT.inno.event.vo.EventVO;
 
-@Service("evnetService")
+@Service("eventService")
 public class EventServiceImpl implements EventService{
 
 	@Autowired

@@ -103,7 +103,7 @@ public class EventDefaultVO {
 
 	@Override
 	public String toString() {
-		return "EvnetDefaultVO [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+		return "EventDefaultVO [searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", searchUseYn=" + searchUseYn + ", pageIndex=" + pageIndex + ", pageUnit=" + pageUnit + ", pageSize="
 				+ pageSize + ", firstIndex=" + firstIndex + ", lastIndex=" + lastIndex + ", recordCountPerPage="
 				+ recordCountPerPage + "]";

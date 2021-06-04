@@ -56,7 +56,7 @@
 				, COMPANY_TYPE
 				, COMPANY_CONTENT
 			FROM company
-			ORDER BY COMPANY_IDX DESC
+			WHERE COMPANY_IDX = #{idx}
 			]]>
 			<!-- WHERE절 -->
 	</select>

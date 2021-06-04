@@ -70,7 +70,7 @@
 				  RECRUIT_HIT,
 				  RECRUIT_ING
 			 FROM recruit
-			 ORDER BY RECRUIT_IDX DESC
+			 WHERE RECRUIT_IDX = #{idx}
 			]]>
 			<!-- WHERE절 -->
 	</select>

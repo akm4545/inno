@@ -1,6 +1,5 @@
 package com.innovationT.inno.inquiry.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.innovationT.inno.inquiry.service.InquiryService;
-import com.innovationT.inno.inquiry.vo.Inquiry;
 import com.innovationT.inno.inquiry.vo.InquiryDefaultVO;
 import com.innovationT.inno.inquiry.vo.InquiryFileVO;
 import com.innovationT.inno.inquiry.vo.InquiryReservationVO;
 import com.innovationT.inno.inquiry.vo.InquirySiteVO;
+import com.innovationT.inno.inquiry.vo.InquiryTemplateVO;
 import com.innovationT.inno.inquiry.vo.InquiryTypeLinkVO;
 import com.innovationT.inno.inquiry.vo.InquiryUserInfoVO;
 import com.innovationT.inno.inquiry.vo.InquiryVO;
@@ -27,17 +26,20 @@ public class InquiryController {
 	// 여러건 조회
 	@RequestMapping("")
 	public String selectInquiryList(InquiryDefaultVO searchVO, ModelMap model) throws Exception {
-		List<E> inquiryList = inquiryService.selectInquiryList(searchVO);
-		model.addAttribute("resultList", inquiryList);
-		return inquiryList;
+		
+		int totCnt = inquiryService.selectInquiryListTotCnt();
+		
+		List<InquiryTemplateVO> inquiryList = inquiryService.selectInquiryList(searchVO);
+		
+		model.addAttribute("inquiryList", inquiryList);
+		return "inquiryList";
 	}
 	
 	// 입력
 	@RequestMapping("")
 	public String insertInquiry(InquiryVO inquiryVO, List<InquiryFileVO> inquiryFileVOList, InquiryReservationVO inquiryReservationVO
 								, List<InquirySiteVO> inquirySiteVOList, List<InquiryTypeLinkVO> inquiryTypeLinkVOList
-								, InquiryUserInfoVO inquiryUserInfoVO
-								, InquiryDefaultVO searchVO) throws Exception {
+								, InquiryUserInfoVO inquiryUserInfoVO) throws Exception {
 		
 //		HashMap<String, Inquiry> map = new HashMap<String, Inquiry>();
 //		map.put("inquiryVO", inquiryVO);
@@ -60,20 +62,20 @@ public class InquiryController {
 	
 	// 한건 조회
 	@RequestMapping("")
-	public InquiryVO selectInquiry(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
-		return (InquiryVO)inquiryService.selectInquiry(inquiryVO);
+	public InquiryTemplateVO selectInquiry(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
+		return (InquiryTemplateVO)inquiryService.selectInquiry(inquiryVO);
 	}
 	
 	// 수정
 	@RequestMapping("")
-	public String updateInquiry(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
-		inquiryService.updateInquiry(inquiryVO);
+	public String updateInquiry(InquiryTemplateVO inquiryTemplateVO, InquiryDefaultVO searchVO) throws Exception {
+		inquiryService.updateInquiry(inquiryTemplateVO);
 		return "forward:";
 	}
 	
 	// 삭제
 	@RequestMapping("")
-	public String deleteInquiry(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
+	public String deleteInquiry(InquiryVO inquiryVO) throws Exception {
 		inquiryService.deleteInquiry(inquiryVO);
 		return "forward:";
 	}

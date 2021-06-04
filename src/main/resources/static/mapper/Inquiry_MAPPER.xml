@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.innovationT.inno.inquiry.dao.InquiryMapper">
+
+	<resultMap id="inquiryVO" type="com.innovationT.inno.inquiry.vo.InquiryVO">
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+		<result property="inquiryPageNumber" column="INQUIRY_PAGENUMBER" />
+		<result property="inquiryPay" column="INQUIRY_PAY" />
+		<result property="inquiryContent" column="INQUIRY_CONTENT" />
+		<result property="inquiryDate" column="INQUIRY_DATE" />
+		<result property="inquiryCheck" column="INQUIRY_CHECK" />
+	</resultMap>
+	
+	<resultMap id="inquiryFileVO" type="com.innovationT.inno.inquiry.vo.InquiryFile">
+		<result property="inquiryFileIdx" column="INQUIRYFILE_IDX" />
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+		<result property="inquiryFileName" column="INQUIRYFILE_NAME" />
+		<result property="inquiryFileDir" column="INQUIRYFILE_DIR" />
+		<result property="inquiryFileOrigin" column="INQUIRYFILE_ORIGIN" />
+	</resultMap>
+	
+	<resultMap id="inquiryUserInfoVO" type="com.innovationT.inno.inquiry.vo.InquiryUserInfoVO">
+		<result property="inquiryUserInfoIdx" column="INQUIRYUSERINFO_IDX" />
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+		<result property="inquiryUserInfoName" column="INQUIRYUSERINFO_NAME" />
+		<result property="inquiryUserInfoCompany" column="INQUIRYUSERINFO_COMPANY" />
+		<result property="inquiryUserInfoNumber" column="INQUIRYUSERINFO_NUMBER" />
+		<result property="inquiryUserInfoEmail" column="INQUIRYUSERINFO_EMAIL" />
+		<result property="inquiryUserInfoAgree" column="INQUIRYUSERINFO_AGREE" />
+	</resultMap>
+	
+	<resultMap id="inquiryTypeLinkVO" type="com.innovationT.inno.inquiry.vo.InquiryTypeLinkVO">
+		<result property="inquiryTypeIdx" column="INQUIRYTYPE_IDX" />
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+	</resultMap>
+	
+	<resultMap id="inquiryReservationVO" type="com.innovationT.inno.inquiry.vo.InquiryReservationVO">
+		<result property="inquiryReservationIdx" column="INQUIRYRESERVATION_IDX" />
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+		<result property="inquiryReservationType" column="INQUIRYRESERVATION_TYPE" />
+	</resultMap>
+	
+	<resultMap id="inquirySiteVO" type="com.innovationT.inno.inquiry.vo.InquirySiteVO">
+		<result property="inquirySiteIdx" column="INQUIRYSITE_IDX" />
+		<result property="inquiryIdx" column="INQUIRY_IDX" />
+		<result property="inquirySiteSite" column="INQUIRYSITE_SITE" />
+		<result property="inquirySiteType" column="INQUIRYSITE_TYPE" />
+	</resultMap>
+	
+	<resultMap id="inquiryBoardList" type="com.innovationT.inno.inquiry.vo.InquiryTemplateVO">
+		<association property="inquiryVO" column="INQUIRY_IDX" resultMap="inquiryVO" />
+		<association property="inquiryUserInfoVO" column="INQUIRY_IDX" resultMap="inquiryUserInfoVO" />
+		<association property="inquiryReservationVO" column="INQUIRY_IDX" resultMap="inquiryReservationVO" />
+	</resultMap>
+	
+	<resultMap id="inquiryFileList" type="java.util.List">
+		<collection property="inquiryFileVO" resultMap="inquiryFileVO" ofType="InquiryFileVO" />
+	</resultMap>
+	
+	<resultMap id="inquiryTypeLinkList" type="java.util.List">
+		<collection property="inquiryTypeLinkVO" resultMap="inquiryTypeLinkVO" ofType="InquiryTypeLinkVO" />
+	</resultMap>
+	
+	<resultMap id="inquirySiteList" type="java.util.List">
+		<collection property="inquirySiteVO" resultMap="inquirySiteVO" ofType="InquirySiteVO" />
+	</resultMap>
+	
+	<insert id="insertInquiryVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryVO" useGeneratedKeys="true" keyProperty="inquiryIdx">
+		INSERT INTO INQUIRY 
+			VALUES ( default
+					, #{inquiryPageNumber}
+					, #{inquiryPay}
+					, #{inquiryContent}
+					, default
+					, #{inquiryCheck} )
+	</insert>
+	
+	<insert id="insertInquiry">
+		<choose>
+			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryReservationVO'">
+				INSERT INTO INQUIRYRESERVATION 
+					VALUES ( default
+							, #{inquiryIdx}
+							, #{inquiryReservationType} )
+			</when>
+			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryUserInfoVO'">
+				INSERT INTO INQUIRYUSERINFO 
+					VALUES ( default
+							, #{inquiryIdx}
+							, #{inquiryUserInfoName}
+							, #{inquiryUserInfoCompany}
+							, #{inquiryUserInfoNumber}
+							, #{inquiryUserInfoEmail}
+							, #{inquiryUserInfoAgree} )
+			</when>
+		</choose>
+	</insert>
+	
+	<!-- <insert id="insertInquiry" parameterType="java.util.HashMap">
+		 INSERT INTO INQUIRY 
+			VALUES ( default
+			  , #{inquiryVO.inquiryPageNumber}
+			  , #{inquiryVO.inquiryPay}
+			  , #{inquiryVO.inquiryContent}
+			  , default
+			  , #{inquiryVO.inquiryCheck} );
+			  ; 붙이는 이유
+			  우선 dataSource 에 있는 url 프로퍼티에  <property name="url" value="jdbc:mysql://127.0.0.1:3306/TestDB?allowMultiQueries=true" /> allowMultiQueries 파라미터를 추가해준다.
+	</insert> -->
+	
+	<insert id="insertInquiryList">
+		<choose>
+			<when test="@java.util.List@contains(inquiryFileVO)">
+				INSERT INTO INQUIRYFILE 
+				VALUES 
+				<foreach item="item" collection="list" separator=",">
+					( default
+					, #{item.inquiryIdx}
+					, #{item.inquiryFileName}
+					, #{item.inquiryFileOrigin}
+					, #{item.inquiryFileDir} )
+				</foreach>
+			</when>
+			<when test="@java.util.List@contains(inquirySiteVO)">
+				INSERT INTO INQUIRYSITE 
+				VALUES 
+				<foreach item="item" collection="list" separator=",">
+					( default
+					, #{item.inquiryIdx}
+					, #{item.inquirySiteSite}
+					, #{item.inquirySiteType} )
+				</foreach>
+			</when>
+			<when test="@java.util.List@contains(inquiryTypeLinkVO)">
+				INSERT INTO INQUIRYTYPELINK 
+				VALUES 
+				<foreach item="item" collection="list" separator=",">
+					( #{item.inquiryIdx}
+					, #{item.inquiryTypeIdx} )
+				</foreach>
+			</when>
+		</choose>
+	</insert>
+	
+	<update id="updateInquiry">
+		<choose>
+			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryVO'">
+				
+				UPDATE INQUIRY SET 
+					INQUIRY_PAGENUMBER = #{inquiryPageNumber},
+					INQUIRY_PAY = #{inquiryPay},
+					INQUIRY_CONTENT = #{inquiryContent},
+					INQUIRY_DATE = default,
+					INQUIRY_CHECK = #{inquiryCheck} 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryUserInfoVO'">
+				UPDATE INQUIRYUSERINFO SET 
+					INQUIRYUSERINFO_NAME = #{inquiryUserInfoName},
+					INQUIRYUSERINFO_COMPANY = #{inquiryUserInfoCompany},
+					INQUIRYUSERINFO_NUMBER = #{inquiryUserInfoNumber},
+					INQUIRYUSERINFO_EMAIL = #{inquiryUserInfoEmail} 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryReservationVO'">
+				UPDATE INQUIRYRESERVATION SET 
+					INQUIRYRESERVATION_TYPE = #{inquiryReservationType}
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+		</choose>
+	</update>
+	
+	<!-- <update id="updateInquiryList">
+		<choose>
+			<when test="@java.util.List@contains(inquiryFileVO)">
+				<foreach collection="list" item="item" separator=",">
+					
+				</foreach>
+			</when>
+		</choose>
+	</update> -->
+	
+	<delete id="deleteInquiry">
+			DELETE FROM INQUIRY
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</delete>
+	
+	<delete id="deleteInquiryList">
+		DELETE FROM 
+		<choose>
+			<when test="@java.util.List@contains(inquiryFileVO)">
+				INQUIRYFILE 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+			<when test="@java.util.List@contains(inquiryTypeLinkVO)">
+				INQUIRYTYPELINK 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+			<when test="@java.util.List@contains(inquirySiteVO)">
+				INQUIRYSITE 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+		</choose>
+	</delete>
+	
+	<select id="selectInquiry" resultMap="inquiryVO">
+			SELECT *
+			FROM INQUIRY 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectInquiryUserInfo" resultMap="inquiryUserInfoVO">
+			SELECT *
+			FROM INQUIRYUSERINFO 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectInquiryReservation" resultMap="inquiryReservationVO">
+			SELECT *
+			FROM INQUIRYRESERVATION 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectInquiryFileList" resultMap="inquiryFileList">
+			SELECT * 
+			FROM INQUIRYFILE 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectInquiryTypeLinkList" resultMap="inquiryTypeLinkList">
+			SELECT * 
+			FROM INQUIRYTYPELINK 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectInquirySiteList" resultMap="inquirySiteList">
+			SELECT * 
+			FROM INQUIRYSITE 
+			WHERE INQUIRY_IDX = #{inquiryIdx}
+	</select>
+	
+	<select id="selectIdxList" resultType="list">
+		<choose>
+			<when test="@java.util.List@contains(inquiryFileVO)">
+				SELECT INQUIRYFILE_IDX 
+				FROM INQUIRYFILE 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+		</choose>
+		<choose>
+			<when test="@java.util.List@contains(inquiryTypeLinkVO)">
+				SELECT INQUIRYTYPE_IDX 
+				FROM INQUIRYTYPELINK 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+		</choose>
+		<choose>
+			<when test="@java.util.List@contains(inquirySiteVO)">
+				SELECT INQUIRYSITE_IDX 
+				FROM INQUIRYSITE 
+				WHERE INQUIRY_IDX = #{inquiryIdx}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectBoardList" resultType="inquiryBoardList">
+			SELECT 
+				INQUIRY.INQUIRY_IDX,
+				INQUIRY.INQUIRY_CONTENT,
+				INQUIRY.INQUIRY_DATE,
+				INQUIRY.INQUIRY_CHECK,
+				INQUIRYUSERINFO.INQUIRYUSERINFO_NAME,
+				INQUIRYUSERINFO.INQUIRYUSERINFO_COMPANY,
+				INQUIRYRESERVATION.INQUIRYRESERVATION_TYPE 
+			FROM INQUIRY 
+				INNER JOIN INQUIRYUSERINFO 
+					ON INQUIRY.INQUIRY_IDX = INQUIRYUSERINFO.INQUIRY_IDX 
+				INNER JOIN INQUIRYRESERVATION 
+					ON INQUIRY.INQUIRY_IDX = INQUIRYRESERVATION.INQUIRY_IDX 
+			<!-- WHERE 1=1 혹은 기준 고정
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 0">AND
+					test = #{searchKeyword}
+				</if>
+				<if test="searchCondition == 1">AND
+					tes2 LIKE CONCAT('%',#{searchKeyword},'%')
+				</if>
+			</if> -->
+			ORDER BY INQUIRY_IDX DESC 
+			limit #{recordCountPerPage} offset #{firstIndex}
+	</select>
+	
+	<select id="selectInquiryIdxList" resultType="list">
+		<choose>
+			<when test="@java.util.List@contains(inquiryFileVO)">
+				SELECT INQUIRYFILE_IDX 
+				FROM INQUIRYFILE
+			</when>
+			<when test="@java.util.List@contains(inquirySiteVO)">
+				SELECT INQUIRYSITE_IDX 
+				FROM INQUIRYSITE
+			</when>
+			<when test="@java.util.List@contains(inquiryTypeLinkVO)">
+				SELECT INQUIRYTYPELINK_IDX 
+				FROM INQUIRYTYPELINK
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectInquiryListTotCnt" resultType="int">
+			SELECT COUNT(*) totcnt 
+			FROM INQUIRY
+	</select>
+
+</mapper>

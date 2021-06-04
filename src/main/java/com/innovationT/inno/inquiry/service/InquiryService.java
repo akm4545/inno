@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.innovationT.inno.inquiry.vo.Inquiry;
 import com.innovationT.inno.inquiry.vo.InquiryDefaultVO;
+import com.innovationT.inno.inquiry.vo.InquiryTemplateVO;
 import com.innovationT.inno.inquiry.vo.InquiryVO;
 
 public interface InquiryService {
@@ -19,13 +20,13 @@ public interface InquiryService {
 	
 	void insertInquiryList(int inquiryIdx, List<? extends Inquiry> inquiryList) throws Exception;
 	
-	void updateInquiry(Inquiry inquiry) throws Exception;
+	void updateInquiry(InquiryTemplateVO inquiryTemplateVO) throws Exception;
 	
 	void deleteInquiry(InquiryVO inquiryVO) throws Exception;
 	
-	Inquiry selectInquiry(Inquiry inquiry) throws Exception;
+	InquiryTemplateVO selectInquiry(Inquiry inquiry) throws Exception;
 	
-	List<Inquiry> selectInquiryList(InquiryDefaultVO searchVO) throws Exception;
+	List<InquiryTemplateVO> selectInquiryList(InquiryDefaultVO searchVO) throws Exception;
 	
-	int selectInquiryListToCnt(InquiryDefaultVO searchVO) throws Exception;
+	int selectInquiryListTotCnt() throws Exception;
 }

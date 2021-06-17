@@ -12,7 +12,7 @@
 		<result property="inquiryCheck" column="INQUIRY_CHECK" />
 	</resultMap>
 	
-	<resultMap id="inquiryFileVO" type="com.innovationT.inno.inquiry.vo.InquiryFile">
+	<resultMap id="inquiryFileVO" type="com.innovationT.inno.inquiry.vo.InquiryFileVO">
 		<result property="inquiryFileIdx" column="INQUIRYFILE_IDX" />
 		<result property="inquiryIdx" column="INQUIRY_IDX" />
 		<result property="inquiryFileName" column="INQUIRYFILE_NAME" />
@@ -76,7 +76,48 @@
 					, #{inquiryCheck} )
 	</insert>
 	
-	<insert id="insertInquiry">
+	<insert id="insertInquiryFileVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryFileVO">
+		INSERT INTO INQUIRYFILE 
+		VALUES ( default
+				, #{inquiryIdx}
+				, #{inquiryFileName}
+				, #{inquiryFileOrigin}
+				, #{inquiryFileDir} )
+	</insert>
+	
+	<insert id="insertInquiryReservationVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryReservationVO">
+		INSERT INTO INQUIRYRESERVATION 
+		VALUES ( default
+				, #{inquiryIdx}
+				, #{inquiryReservationType} )
+	</insert>
+	
+	<insert id="insertInquirySiteVO" parameterType="com.innovationT.inno.inquiry.vo.InquirySiteVO">
+		INSERT INTO INQUIRYSITE 
+		VALUES ( default
+				, #{inquiryIdx}
+				, #{inquirySiteSite}
+				, #{inquirySiteType} )
+	</insert>
+	
+	<insert id="insertInquiryTypeLinkVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryTypeLinkVO">
+		INSERT INTO INQUIRYTYPELINK 
+		VALUES ( #{inquiryIdx}
+				, #{inquiryTypeIdx} )
+	</insert>
+	
+	<insert id="insertInquiryUserInfoVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryUserInfoVO">
+		INSERT INTO INQUIRYUSERINFO 
+		VALUES ( default
+				, #{inquiryIdx}
+				, #{inquiryUserInfoName}
+				, #{inquiryUserInfoCompany}
+				, #{inquiryUserInfoNumber}
+				, #{inquiryUserInfoEmail}
+				, #{inquiryUserInfoAgree} )
+	</insert>
+	
+	<!-- <insert id="insertInquiry">
 		<choose>
 			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryReservationVO'">
 				INSERT INTO INQUIRYRESERVATION 
@@ -95,7 +136,7 @@
 							, #{inquiryUserInfoAgree} )
 			</when>
 		</choose>
-	</insert>
+	</insert> -->
 	
 	<!-- <insert id="insertInquiry" parameterType="java.util.HashMap">
 		 INSERT INTO INQUIRY 
@@ -109,9 +150,9 @@
 			  우선 dataSource 에 있는 url 프로퍼티에  <property name="url" value="jdbc:mysql://127.0.0.1:3306/TestDB?allowMultiQueries=true" /> allowMultiQueries 파라미터를 추가해준다.
 	</insert> -->
 	
-	<insert id="insertInquiryList">
+	<!-- <insert id="insertInquiryList" parameterType="list">
 		<choose>
-			<when test="@java.util.List@contains(inquiryFileVO)">
+			<when test="@java.util.List@contains(inquiryFileVO)"> @패키지.클래스명@호출할 메소드(파라미터)
 				INSERT INTO INQUIRYFILE 
 				VALUES 
 				<foreach item="item" collection="list" separator=",">
@@ -141,9 +182,9 @@
 				</foreach>
 			</when>
 		</choose>
-	</insert>
+	</insert> -->
 	
-	<update id="updateInquiry">
+	<!-- <update id="updateInquiry">
 		<choose>
 			<when test="parameterType == 'com.innovationT.inno.inquiry.vo.InquiryVO'">
 				
@@ -169,6 +210,34 @@
 				WHERE INQUIRY_IDX = #{inquiryIdx}
 			</when>
 		</choose>
+	</update> -->
+	
+	<update id="updateInquiryVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryVO">
+		UPDATE INQUIRY 
+		SET 
+			INQUIRY_PAGENUMBER = #{inquiryPageNumber},
+			INQUIRY_PAY = #{inquiryPay},
+			INQUIRY_CONTENT = #{inquiryContent},
+			INQUIRY_DATE = default,
+			INQUIRY_CHECK = #{inquiryCheck} 
+		WHERE INQUIRY_IDX = #{inquiryIdx}
+	</update>
+	
+	<update id="updateInquiryUserInfoVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryUserInfoVO">
+		UPDATE INQUIRYUSERINFO 
+		SET 
+			INQUIRYUSERINFO_NAME = #{inquiryUserInfoName},
+			INQUIRYUSERINFO_COMPANY = #{inquiryUserInfoCompany},
+			INQUIRYUSERINFO_NUMBER = #{inquiryUserInfoNumber},
+			INQUIRYUSERINFO_EMAIL = #{inquiryUserInfoEmail} 
+		WHERE INQUIRY_IDX = #{inquiryIdx}
+	</update>
+	
+	<update id="updateInquiryReservationVO" parameterType="com.innovationT.inno.inquiry.vo.InquiryReservationVO">
+		UPDATE INQUIRYRESERVATION 
+		SET 
+			INQUIRYRESERVATION_TYPE = #{inquiryReservationType}
+		WHERE INQUIRY_IDX = #{inquiryIdx}
 	</update>
 	
 	<!-- <update id="updateInquiryList">
@@ -186,55 +255,68 @@
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</delete>
 	
-	<delete id="deleteInquiryList">
+	<!-- <delete id="deleteInquiryList">
 		DELETE FROM 
 		<choose>
 			<when test="@java.util.List@contains(inquiryFileVO)">
 				INQUIRYFILE 
-				WHERE INQUIRY_IDX = #{inquiryIdx}
 			</when>
 			<when test="@java.util.List@contains(inquiryTypeLinkVO)">
 				INQUIRYTYPELINK 
-				WHERE INQUIRY_IDX = #{inquiryIdx}
 			</when>
 			<when test="@java.util.List@contains(inquirySiteVO)">
 				INQUIRYSITE 
-				WHERE INQUIRY_IDX = #{inquiryIdx}
 			</when>
 		</choose>
+		WHERE INQUIRY_IDX = #{inquiryIdx}
+	</delete> -->
+	
+	<delete id="deleteInquiryFileList" parameterType="int">
+		DELETE FROM INQUIRYFILE 
+		WHERE INQUIRY_IDX = #{inquiryIdx}
 	</delete>
 	
-	<select id="selectInquiry" resultMap="inquiryVO">
+	<delete id="deleteInquiryTypeLinkList" parameterType="int">
+		DELETE FROM INQUIRYTYPELINK 
+		WHERE INQUIRY_IDX = #{inquiryIdx}
+	</delete>
+	
+	<delete id="deleteInquirySiteList" parameterType="int">
+		DELETE FROM INQUIRYSITE 
+		WHERE INQUIRY_IDX = #{inquiryIdx}
+	</delete>
+	
+	<select id="selectInquiry" parameterType="int" resultMap="inquiryVO">
 			SELECT *
 			FROM INQUIRY 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</select>
 	
-	<select id="selectInquiryUserInfo" resultMap="inquiryUserInfoVO">
+	<select id="selectInquiryUserInfo" parameterType="int" resultMap="inquiryUserInfoVO">
 			SELECT *
 			FROM INQUIRYUSERINFO 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</select>
 	
-	<select id="selectInquiryReservation" resultMap="inquiryReservationVO">
+	<select id="selectInquiryReservation" parameterType="int" resultMap="inquiryReservationVO">
 			SELECT *
 			FROM INQUIRYRESERVATION 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</select>
 	
-	<select id="selectInquiryFileList" resultMap="inquiryFileList">
+	<select id="selectInquiryFileList" parameterType="int" resultMap="inquiryFileList">
 			SELECT * 
 			FROM INQUIRYFILE 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</select>
 	
-	<select id="selectInquiryTypeLinkList" resultMap="inquiryTypeLinkList">
+	<select id="selectInquiryTypeLinkList" parameterType="int" resultMap="inquiryTypeLinkList">
 			SELECT * 
 			FROM INQUIRYTYPELINK 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
 	</select>
 	
-	<select id="selectInquirySiteList" resultMap="inquirySiteList">
+	<select id="selectInquirySiteList" parameterType="int" resultMap="inquirySiteList">
 			SELECT * 
 			FROM INQUIRYSITE 
 			WHERE INQUIRY_IDX = #{inquiryIdx}
@@ -264,7 +346,7 @@
 		</choose>
 	</select>
 	
-	<select id="selectBoardList" resultType="inquiryBoardList">
+	<select id="selectBoardList" parameterType="com.innovationT.inno.inquiry.vo.InquiryDefaultVO" resultMap="inquiryBoardList">
 			SELECT 
 				INQUIRY.INQUIRY_IDX,
 				INQUIRY.INQUIRY_CONTENT,
@@ -278,16 +360,34 @@
 					ON INQUIRY.INQUIRY_IDX = INQUIRYUSERINFO.INQUIRY_IDX 
 				INNER JOIN INQUIRYRESERVATION 
 					ON INQUIRY.INQUIRY_IDX = INQUIRYRESERVATION.INQUIRY_IDX 
-			<!-- WHERE 1=1 혹은 기준 고정
 			<if test="searchKeyword != null and searchKeyword != ''">
-				<if test="searchCondition == 0">AND
-					test = #{searchKeyword}
-				</if>
-				<if test="searchCondition == 1">AND
-					tes2 LIKE CONCAT('%',#{searchKeyword},'%')
-				</if>
-			</if> -->
-			ORDER BY INQUIRY_IDX DESC 
+				WHERE 
+					<choose>
+						<!-- 검색 유형이 있을 때 -->
+						<when test="searchCondition != null and searchCondition != ''">
+							<choose>
+								<when test="'content'.equals(searchCondition)"> 
+									INQUIRY.INQUIRY_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+								<when test="'username'.equals(searchCondition)">
+									INQUIRYUSERINFO.INQUIRYUSERINFO_NAME LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+								<when test="'usercompany'.equals(searchCondition)">
+									INQUIRYUSERINFO.INQUIRYUSERINFO_COMPANY LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+							</choose>
+						</when>
+						<!-- 검색 유형이 없을 때 -->
+						<otherwise> 
+								(
+									INQUIRY.INQUIRY_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%') OR
+									INQUIRYUSERINFO.INQUIRYUSERINFO_NAME CONCAT('%', #{searchKeyword}, '%') OR
+									INQUIRYUSERINFO.INQUIRYUSERINFO_COMPANY LIKE CONCAT('%', #{searchKeyword}, '%')
+								)
+						</otherwise>
+					</choose>
+			</if>
+			ORDER BY INQUIRY.INQUIRY_IDX DESC 
 			limit #{recordCountPerPage} offset #{firstIndex}
 	</select>
 	
@@ -308,9 +408,48 @@
 		</choose>
 	</select>
 	
-	<select id="selectInquiryListTotCnt" resultType="int">
+	<select id="selectInquiryListTotCnt" parameterType="com.innovationT.inno.inquiry.vo.InquiryDefaultVO" resultType="int">
 			SELECT COUNT(*) totcnt 
 			FROM INQUIRY
+				INNER JOIN INQUIRYUSERINFO 
+					ON INQUIRY.INQUIRY_IDX = INQUIRYUSERINFO.INQUIRY_IDX 
+				INNER JOIN INQUIRYRESERVATION 
+					ON INQUIRY.INQUIRY_IDX = INQUIRYRESERVATION.INQUIRY_IDX 
+			<if test="searchKeyword != null and searchKeyword != ''">
+				WHERE 
+					<choose>
+						<!-- 검색 유형이 있을 때 -->
+						<when test="searchCondition != null and searchCondition != ''">
+							<choose>
+								<when test="'content'.equals(searchCondition)"> 
+									INQUIRY.INQUIRY_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+								<when test="'username'.equals(searchCondition)">
+									INQUIRYUSERINFO.INQUIRYUSERINFO_NAME LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+								<when test="'usercompany'.equals(searchCondition)">
+									INQUIRYUSERINFO.INQUIRYUSERINFO_COMPANY LIKE CONCAT('%', #{searchKeyword}, '%')
+								</when>
+							</choose>
+						</when>
+						<!-- 검색 유형이 없을 때 -->
+						<otherwise> 
+								(
+									INQUIRY.INQUIRY_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%') OR
+									INQUIRYUSERINFO.INQUIRYUSERINFO_NAME CONCAT('%', #{searchKeyword}, '%') OR
+									INQUIRYUSERINFO.INQUIRYUSERINFO_COMPANY LIKE CONCAT('%', #{searchKeyword}, '%')
+								)
+						</otherwise>
+					</choose>
+			</if>
 	</select>
+	
+	<update id="updateToCheck" parameterType="int">
+		UPDATE INQUIRY
+		SET
+			INQUIRY_CHECK = 'T'
+		WHERE
+			INQUIRY_IDX = #{inquiryIdx}
+	</update>
 
 </mapper>

@@ -1,11 +1,13 @@
 package com.innovationT.inno.inquiry.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.innovationT.inno.inquiry.service.InquiryService;
 import com.innovationT.inno.inquiry.vo.InquiryDefaultVO;
@@ -23,20 +25,55 @@ public class InquiryController {
 	@Autowired
 	private InquiryService inquiryService;
 	
-	// 여러건 조회
-	@RequestMapping("")
-	public String selectInquiryList(InquiryDefaultVO searchVO, ModelMap model) throws Exception {
+	/* 관리자 영역 */
+	
+	// 관리자가 여러건 조회
+	@RequestMapping(value = "admin/inquiry/list", method = RequestMethod.GET)
+	public String selectInquiryListAsAdmin(InquiryDefaultVO searchVO, ModelMap model) throws Exception {
+		List<InquiryTemplateVO> inquiryList = Collections.emptyList();
 		
-		int totCnt = inquiryService.selectInquiryListTotCnt();
+		int totCnt = inquiryService.selectInquiryListTotCnt(searchVO);
 		
-		List<InquiryTemplateVO> inquiryList = inquiryService.selectInquiryList(searchVO);
+		if (totCnt > 0) {
+			inquiryList = inquiryService.selectInquiryList(searchVO);
+		}
 		
 		model.addAttribute("inquiryList", inquiryList);
 		return "inquiryList";
 	}
 	
+	// 한건 조회
+	@RequestMapping(value = "admin/inquiry/view", method = RequestMethod.GET)
+	public InquiryTemplateVO selectInquiryAsAdmin(InquiryVO inquiryVO) throws Exception {
+		return inquiryService.selectInquiry(inquiryVO);
+	}
+	
+	// 수정
+	@RequestMapping(value = "admin/inquiry/update", method = RequestMethod.POST)
+	public String updateInquiryAsAdmin(InquiryTemplateVO inquiryTemplateVO, InquiryDefaultVO searchVO) throws Exception {
+		inquiryService.updateInquiry(inquiryTemplateVO);
+		return "redirect:/admin/inquiry/list";
+	}
+	
+	@RequestMapping(value = "admin/inquiry/checked", method = RequestMethod.POST)
+	public String updateToCheckInquiryAsAdmin(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception{
+		inquiryService.updateToCheck(inquiryVO.getInquiryIdx());
+		return "redirect:/admin/inquiry/list";
+	}
+	
+	// 삭제
+	@RequestMapping(value = "admin/inquiry/delete", method = RequestMethod.POST)
+	public String deleteInquiryAsAdmin(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
+		inquiryService.deleteInquiry(inquiryVO);
+		return "redirect:/admin/inquiry/list";
+	}
+	
+	/* 관리자 영역 끝 */
+	
+	/* 사용자 영역 */
+	
 	// 입력
-	@RequestMapping("")
+	@RequestMapping(value = "/inquiry/insert", method = RequestMethod.POST)
 	public String insertInquiry(InquiryVO inquiryVO, List<InquiryFileVO> inquiryFileVOList, InquiryReservationVO inquiryReservationVO
 								, List<InquirySiteVO> inquirySiteVOList, List<InquiryTypeLinkVO> inquiryTypeLinkVOList
 								, InquiryUserInfoVO inquiryUserInfoVO) throws Exception {
@@ -51,32 +88,38 @@ public class InquiryController {
 //		inquiryService.insertInquiry(map);
 		
 		// 트랜잭션 처리 필요
-		int inquiryIdx = inquiryService.insertInquiryVO(inquiryVO).getInquiryIdx();
-		inquiryService.insertInquiryList(inquiryIdx, inquiryFileVOList);
-		inquiryService.insertInquiry(inquiryIdx, inquiryReservationVO);
-		inquiryService.insertInquiryList(inquiryIdx, inquirySiteVOList);
+		inquiryService.insertInquiry(inquiryVO);
+		int inquiryIdx = inquiryVO.getInquiryIdx();
+		
+		if (inquiryFileVOList.size() > 0) {
+			inquiryService.insertInquiryList(inquiryIdx, inquiryFileVOList);
+		}
+		
+		inquiryReservationVO.setInquiryIdx(inquiryIdx);
+		inquiryService.insertInquiry(inquiryReservationVO);
+		
+		if (inquirySiteVOList.size() > 0) {
+			inquiryService.insertInquiryList(inquiryIdx, inquirySiteVOList);
+		}
+		
 		inquiryService.insertInquiryList(inquiryIdx, inquiryTypeLinkVOList);
-		inquiryService.insertInquiry(inquiryIdx, inquiryUserInfoVO);
-		return "forward:";
+		
+		inquiryUserInfoVO.setInquiryIdx(inquiryIdx);
+		inquiryService.insertInquiry(inquiryUserInfoVO);
+		
+		return "redirect:/inquiry/list";
 	}
 	
 	// 한건 조회
-	@RequestMapping("")
-	public InquiryTemplateVO selectInquiry(InquiryVO inquiryVO, InquiryDefaultVO searchVO) throws Exception {
-		return (InquiryTemplateVO)inquiryService.selectInquiry(inquiryVO);
+	@RequestMapping(value = "inquiry/view", method = RequestMethod.GET)
+	public InquiryTemplateVO selectInquiry(InquiryVO inquiryVO) throws Exception {
+		return inquiryService.selectInquiry(inquiryVO);
 	}
 	
 	// 수정
-	@RequestMapping("")
-	public String updateInquiry(InquiryTemplateVO inquiryTemplateVO, InquiryDefaultVO searchVO) throws Exception {
+	@RequestMapping(value = "inquiry/update", method = RequestMethod.POST)
+	public String updateInquiry(InquiryTemplateVO inquiryTemplateVO) throws Exception {
 		inquiryService.updateInquiry(inquiryTemplateVO);
-		return "forward:";
-	}
-	
-	// 삭제
-	@RequestMapping("")
-	public String deleteInquiry(InquiryVO inquiryVO) throws Exception {
-		inquiryService.deleteInquiry(inquiryVO);
-		return "forward:";
+		return "redirect:/inquiry/list";
 	}
 }

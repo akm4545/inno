@@ -1,6 +1,6 @@
 package com.innovationT.inno.inquiry.vo;
 
-public class Inquiry {
+public class Inquiry extends InquiryDefaultVO{
 	
 	private int inquiryIdx;
 

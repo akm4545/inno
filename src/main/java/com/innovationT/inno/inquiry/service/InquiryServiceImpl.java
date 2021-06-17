@@ -27,27 +27,77 @@ public class InquiryServiceImpl implements InquiryService{
 //		return null;
 //	}
 	
+//	@Override
+//	public void insertInquiryVO(InquiryVO inquiryVO) throws Exception {
+//		inquiryDAO.insertInquiry(inquiryVO);
+//	}
+	
+//	@Override
+//	public void insertInquiry(int inquiryIdx, Inquiry inquiry) throws Exception {
+//		inquiryDAO.insertInquiry(inquiryIdx, inquiry);
+//	}
+	
 	@Override
-	public InquiryVO insertInquiryVO(InquiryVO inquiryVO) throws Exception {
-		return inquiryDAO.insertInquiryVO(inquiryVO);
+	public void insertInquiry(InquiryVO inquiryVO) throws Exception {
+		inquiryDAO.insertInquiryVO(inquiryVO);
 	}
 	
 	@Override
-	public void insertInquiry(int inquiryIdx, Inquiry inquiry) throws Exception {
-		inquiryDAO.insertInquiry(inquiryIdx, inquiry);
+	public void insertInquiry(InquiryFileVO inquiryFileVO) throws Exception {
+		inquiryDAO.insertInquiryFileVO(inquiryFileVO);
+		
 	}
-	
+
+	@Override
+	public void insertInquiry(InquiryReservationVO inquiryReservationVO) throws Exception {
+		inquiryDAO.insertInquiryReservationVO(inquiryReservationVO);
+		
+	}
+
+	@Override
+	public void insertInquiry(InquirySiteVO inquirySiteVO) throws Exception {
+		inquiryDAO.insertInquirySiteVO(inquirySiteVO);
+		
+	}
+
+	@Override
+	public void insertInquiry(InquiryTypeLinkVO inquiryTypeLinkVO) throws Exception {
+		inquiryDAO.insertInquiryTypeLinkVO(inquiryTypeLinkVO);
+		
+	}
+
+	@Override
+	public void insertInquiry(InquiryUserInfoVO inquiryUserInfoVO) throws Exception {
+		inquiryDAO.insertInquiryUserInfoVO(inquiryUserInfoVO);
+		
+	}
+
 	@Override
 	public void insertInquiryList(int inquiryIdx, List<? extends Inquiry> inquiryList) throws Exception {
-		inquiryDAO.insertInquiryList(inquiryIdx, inquiryList);
+		for (int i = 0; i < inquiryList.size(); i++) {
+			if (inquiryList.get(i) instanceof InquiryFileVO) {
+				InquiryFileVO tmpVO = (InquiryFileVO)inquiryList.get(i);
+				tmpVO.setInquiryIdx(inquiryIdx);
+				insertInquiry(tmpVO);
+			} else if (inquiryList.get(i) instanceof InquirySiteVO) {
+				InquirySiteVO tmpVO = (InquirySiteVO)inquiryList.get(i);
+				tmpVO.setInquiryIdx(inquiryIdx);
+				insertInquiry(tmpVO);
+			} else if (inquiryList.get(i) instanceof InquiryTypeLinkVO) {
+				InquiryTypeLinkVO tmpVO = (InquiryTypeLinkVO)inquiryList.get(i);
+				tmpVO.setInquiryIdx(inquiryIdx);
+				insertInquiry(tmpVO);
+			}
+		}
+//		inquiryDAO.insertInquiryList(inquiryIdx, inquiryList);
 	}
 
 	@Override
 	public void updateInquiry(InquiryTemplateVO inquiryTemplateVO) throws Exception {
 		
 		// 트랜잭션 처리 필요
-		inquiryDAO.updateInquiry(inquiryTemplateVO.getInquiryVO());
 		deleteAndinsertList(inquiryTemplateVO.getInquiryFileVOList());
+		inquiryDAO.updateInquiryVO(inquiryTemplateVO.getInquiryVO());
 //		List<Integer> inquiryFileIdxList = inquiryDAO.selectIdxList(inquiryFileVOList);
 //		for (int i = 0; i < inquiryFileVOList.size(); i++) {
 //			InquiryFileVO inquiryFileVO = inquiryFileVOList.get(i);
@@ -64,10 +114,10 @@ public class InquiryServiceImpl implements InquiryService{
 //			InquiryFileVO inquiryFileVO = inquiryFileVOList.get(i);
 //			inquiryDAO.insertInquiry(inquiryFileVO.getInquiryIdx(), inquiryFileVO);
 //		}
-		inquiryDAO.updateInquiry(inquiryTemplateVO.getInquiryUserInfoVO());
 		deleteAndinsertList(inquiryTemplateVO.getInquiryTypeLinkVOList());
-		inquiryDAO.updateInquiry(inquiryTemplateVO.getInquiryReservationVO());
+		inquiryDAO.updateInquiryUserInfoVO(inquiryTemplateVO.getInquiryUserInfoVO());
 		deleteAndinsertList(inquiryTemplateVO.getInquirySiteVOList());
+		inquiryDAO.updateInquiryReservationVO(inquiryTemplateVO.getInquiryReservationVO());
 	}
 
 	@Override
@@ -94,12 +144,14 @@ public class InquiryServiceImpl implements InquiryService{
 //		result.setInquiryTypeLinkVOList(inquiryTypeLinkVOList);
 //		result.setInquirySiteVOList(inquirySiteVOList);
 		
-		result.setInquiryVO(inquiryDAO.selectInquiry(inquiry));
-		result.setInquiryUserInfoVO(inquiryDAO.selectInquiryUserInfo(inquiry));
-		result.setInquiryReservationVO(inquiryDAO.selectInquiryReservation(inquiry));
-		result.setInquiryFileVOList(inquiryDAO.selectInquiryFileList(inquiry));
-		result.setInquiryTypeLinkVOList(inquiryDAO.selectInquiryTypeLinkList(inquiry));
-		result.setInquirySiteVOList(inquiryDAO.selectInquirySiteList(inquiry));
+		int inquiryIdx = inquiry.getInquiryIdx();
+		
+		result.setInquiryVO(inquiryDAO.selectInquiry(inquiryIdx));
+		result.setInquiryUserInfoVO(inquiryDAO.selectInquiryUserInfo(inquiryIdx));
+		result.setInquiryReservationVO(inquiryDAO.selectInquiryReservation(inquiryIdx));
+		result.setInquiryFileVOList(inquiryDAO.selectInquiryFileList(inquiryIdx));
+		result.setInquiryTypeLinkVOList(inquiryDAO.selectInquiryTypeLinkList(inquiryIdx));
+		result.setInquirySiteVOList(inquiryDAO.selectInquirySiteList(inquiryIdx));
 		
 		return result;
 	}
@@ -110,14 +162,49 @@ public class InquiryServiceImpl implements InquiryService{
 	}
 
 	@Override
-	public int selectInquiryListTotCnt() throws Exception {
-		return inquiryDAO.selectInquiryListTotCnt();
+	public int selectInquiryListTotCnt(InquiryDefaultVO searchVO) throws Exception {
+		return inquiryDAO.selectInquiryListTotCnt(searchVO);
 	}
 	
+	@Override
 	public void deleteAndinsertList(List<? extends Inquiry> inquiryList) throws Exception{
-		inquiryDAO.deleteInquiryList(inquiryList.get(0));
-		for (int i = 0; i < inquiryList.size(); i++) {
-			inquiryDAO.insertInquiryList(inquiryList.get(i).getInquiryIdx(), inquiryList);
+		if (inquiryList.size() != 0) {
+			for (int i = 0; i < inquiryList.size(); i++) {
+				if (inquiryList.get(i) instanceof InquiryFileVO) {
+					
+					InquiryFileVO tmpVO = (InquiryFileVO)inquiryList.get(i);
+					
+					if (i == 0) {
+						inquiryDAO.deleteInquiryFileList(tmpVO.getInquiryIdx());
+					}
+					
+					inquiryDAO.insertInquiryFileVO(tmpVO);
+				} else if (inquiryList.get(i) instanceof InquiryTypeLinkVO) {
+
+					InquiryTypeLinkVO tmpVO = (InquiryTypeLinkVO)inquiryList.get(i);
+					
+					if (i == 0) {
+						inquiryDAO.deleteInquiryTypeLinkList(tmpVO.getInquiryIdx());
+					}
+					
+					inquiryDAO.insertInquiryTypeLinkVO(tmpVO);
+				} else if (inquiryList.get(i) instanceof InquirySiteVO) {
+
+					InquirySiteVO tmpVO = (InquirySiteVO)inquiryList.get(i);
+					
+					if (i == 0) {
+						inquiryDAO.deleteInquirySiteList(tmpVO.getInquiryIdx());
+					}
+					
+					inquiryDAO.insertInquirySiteVO(tmpVO);
+				}
+			}
 		}
 	}
+
+	@Override
+	public void updateToCheck(int inquiryIdx) throws Exception {
+		inquiryDAO.updateToCheck(inquiryIdx);
+	}
+	
 }
